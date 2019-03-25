@@ -26,11 +26,10 @@ DEALINGS IN THE SOFTWARE.
 
 from enum import Enum, IntEnum
 
-__all__ = ['ChannelType', 'MessageType', 'VoiceRegion', 'SpeakingState',
-           'VerificationLevel', 'ContentFilter', 'Status', 'DefaultAvatar',
-           'RelationshipType', 'AuditLogAction', 'AuditLogActionCategory',
-           'UserFlags', 'ActivityType', 'HypeSquadHouse', 'NotificationLevel',
-           'PremiumType']
+__all__ = ['ChannelType', 'MessageType', 'VoiceRegion', 'VerificationLevel',
+           'ContentFilter', 'Status', 'DefaultAvatar', 'RelationshipType',
+           'AuditLogAction', 'AuditLogActionCategory', 'UserFlags',
+           'ActivityType', 'HypeSquadHouse', 'NotificationLevel', 'PremiumType']
 
 class ChannelType(Enum):
     text     = 0
@@ -77,15 +76,6 @@ class VoiceRegion(Enum):
 
     def __str__(self):
         return self.value
-
-class SpeakingState(IntEnum):
-    none       = 0
-    voice      = 1
-    soundshare = 2
-    priority   = 4
-
-    def __str__(self):
-        return self.name
 
 class VerificationLevel(IntEnum):
     none              = 0
