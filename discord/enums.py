@@ -26,7 +26,7 @@ DEALINGS IN THE SOFTWARE.
 
 from enum import Enum
 
-__all__ = ['ChannelType', 'MessageType', 'VoiceRegion', 'SpeakingState',
+__all__ = ['ChannelType', 'MessageType', 'VoiceRegion',
            'VerificationLevel', 'ContentFilter', 'Status', 'DefaultAvatar',
            'RelationshipType', 'AuditLogAction', 'AuditLogActionCategory',
            'UserFlags', 'ActivityType', 'HypeSquadHouse', 'NotificationLevel',
@@ -76,18 +76,6 @@ class VoiceRegion(Enum):
     vip_amsterdam = 'vip-amsterdam'
 
     def __str__(self):
-        return self.value
-
-class SpeakingState(Enum):
-    none       = 0
-    voice      = 1
-    soundshare = 2
-    priority   = 4
-
-    def __str__(self):
-        return self.name
-
-    def __int__(self):
         return self.value
 
 class VerificationLevel(Enum):
