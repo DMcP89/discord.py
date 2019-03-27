@@ -438,12 +438,13 @@ class OpusJitterBuffer(threading.Thread):
 
     def feed_rtcp(self, packet):
         ... # TODO: rotating buffer of Nones or something
+        #           or I can store (last_seq + buffer_size, packet)
         # print(f"[router:feed] Got rtcp packet {packet}")
         # print(f"[router:feed] Other timestamps: {[p.timestamp for p in self._buffer]}")
         # print(f"[router:feed] Other timestamps: {self._buffer}")
 
     def truncate(self, *, size=None):
-        """Discards old data to shrink buffer back down to buffer_size."""
+        """Discards old data to shrink buffer back down to `size` (default: buffer_size)."""
 
         size = self.buffer_size if size is None else size
         with self._lock:
@@ -453,17 +454,17 @@ class OpusJitterBuffer(threading.Thread):
         # Since this function can (usually is?) called from the websocket read loop,
         # it might not be a bad idea to return a future and set it when flushing is done
 
+        self._end_thread.set()
+        self._end_main_loop.set()
+
+        # TODO: this stuff
         if any(isinstance(p, RTPPacket) for p in self._buffer):
             if fastflush:
                 # set delay to 0 and write out everything
-
                 ...
 
             elif flush:
                 ...
-
-        self._end_thread.set()
-        self._end_main_loop.set()
 
     def reset(self):
         with self._lock:
@@ -559,7 +560,7 @@ class OpusJitterBuffer(threading.Thread):
                 # remove the stale packets and keep the fresh ones
                 self.truncate(size=len(self._buffer[diffs.index(jump1)+1:]))
             else:
-                # otherwise they're all stale, dump 'em
+                # otherwise they're all stale, dump 'em (does this ever happen?)
                 with self._lock:
                     self._buffer.clear()
 

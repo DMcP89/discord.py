@@ -534,6 +534,20 @@ class VoiceClient:
             self._reader.stop()
             self._reader = None
 
+    @property
+    def sink(self):
+        return self._reader.sink if self._reader else None
+
+    @sink.setter
+    def sink(self, value):
+        if not isinstance(value, AudioSink):
+            raise TypeError('expected AudioSink not {0.__class__.__name__}.'.format(value))
+
+        if self._reader is None:
+            raise ValueError('Not receiving anything.')
+
+        self._reader._set_sink(sink)
+
     def stop(self):
         """Stops playing and receiving audio."""
         self.stop_playing()
